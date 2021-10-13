@@ -9,7 +9,7 @@ configParser.read(configFilePath)
 
 token = configParser.get('discord','token')
 primaryChannel = configParser.getint('discord','primaryChannel')
-prefix = configParser.get('discord','token')
+prefix = configParser.get('discord','prefix')
 
 mwoUser = configParser.get('mwomercs','username')
 mwoPassword = configParser.get('mwomercs','password')
@@ -72,7 +72,7 @@ async def addrole(ctx, warrior: discord.Member, role: str):
   try:
     role = discord.utils.get(warrior.guild.roles, name=role)
     await warrior.add_roles(role)
-    await ctx.send('Aff. Role added.')
+    await ctx.send('Aff. Added {role} role to {warrior.display_name}.')
   except:
     await ctx.send('Unable to assign role to warrior. Please check role name and permissions.')
 
@@ -82,7 +82,7 @@ async def rmrole(ctx, warrior: discord.Member, role: str):
   try:
     role = discord.utils.get(warrior.guild.roles, name=role)
     await warrior.remove_roles(role)
-    await ctx.send('Aff. Role removed.')
+    await ctx.send(f'Aff. Removed {role} role from {warrior.display_name}.')
   except:
     await ctx.send('Unable to remove role from warrior. Please check role name and permissions.')
 
