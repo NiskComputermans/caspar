@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from libmwostat import MWOStat
 import configparser
+import re
 
 configParser = configparser.RawConfigParser()
 configFilePath = r'./caspar.conf'
@@ -58,6 +59,7 @@ async def jarls(ctx, warrior: str):
     await ctx.send('Pilot not found.')
   else:
     stats = stats[0]
+    stats["Rating"] = re.sub(r'^\[.*\]','',stats["Rating"])
     result = f'```python\n{stats["Pilot"]}:\n'
     stats.pop('Pilot')
     for key in stats:
@@ -72,7 +74,7 @@ async def addrole(ctx, warrior: discord.Member, role: str):
   try:
     role = discord.utils.get(warrior.guild.roles, name=role)
     await warrior.add_roles(role)
-    await ctx.send('Aff. Added {role} role to {warrior.display_name}.')
+    await ctx.send(f'Aff. Added {role} role to {warrior.display_name}.')
   except:
     await ctx.send('Unable to assign role to warrior. Please check role name and permissions.')
 
