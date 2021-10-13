@@ -50,9 +50,41 @@ async def kdr(ctx, warrior: str):
   except:
     await ctx.send('Unable to retrieve warrior data. Check CASPAR MWO service account.')
 
-@bot.command(help='Retrieve overall stat and last 5 season\'s stats from the Jarl\'s List')
+@bot.command(help='Retrieve a warrior\'s overall stats from the Jarl\'s List')
 async def jarls(ctx, warrior: str):
-  result = 'This function incomplete'
-  await ctx.send(result)
+  await ctx.send('Looking up warrior in Jarl\'s List...')
+  stat.ImportPilots(pilot_list = [ warrior ])
+  stats = stat.GetJarlsStats()
+  if type(stats) is str:
+    await ctx.send('Pilot not found.')
+  else:
+    stats = stats[0]
+    result = f'```python\n{stats["Pilot"]}:\n'
+    stats.pop('Pilot')
+    for key in stats:
+        whitespace = ' ' * (20 - len(key) - len(f'{stats[key]}'))
+        result = f'{result}  {key}:{whitespace}{stats[key]}\n'
+    result = f'{result}\n```'
+    await ctx.send(result)
+
+@bot.command(pass_context=True, help='Add a role or rank to a warrior.')
+@commands.has_any_role("Unit Commander", "Staff Officer","Section Officer")
+async def addrole(ctx, warrior: discord.Member, role: str):
+  try:
+    role = discord.utils.get(warrior.guild.roles, name=role)
+    await warrior.add_roles(role)
+    await ctx.send('Aff. Role added.')
+  except:
+    await ctx.send('Unable to assign role to warrior. Please check role name and permissions.')
+
+@bot.command(pass_context=True, help='Remove a role or rank from a warrior.')
+@commands.has_any_role("Unit Commander", "Staff Officer","Section Officer")
+async def rmrole(ctx, warrior: discord.Member, role: str):
+  try:
+    role = discord.utils.get(warrior.guild.roles, name=role)
+    await warrior.remove_roles(role)
+    await ctx.send('Aff. Role removed.')
+  except:
+    await ctx.send('Unable to remove role from warrior. Please check role name and permissions.')
 
 bot.run(token)
