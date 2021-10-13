@@ -224,7 +224,7 @@ class MWOStat:
       cooked_stats['GamesPlayed'] = raw[2]
       cooked_stats['WinRatio'] = raw[3]
       cooked_stats['KDRatio'] = raw[4]
-      cooked_stats['Rating'] = raw[0]
+      cooked_stats['Rating'] = re.sub(r'^\[.*\]','',raw[0])
 
       outputs.append(cooked_stats)
     return(outputs)

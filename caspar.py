@@ -59,7 +59,7 @@ async def jarls(ctx, warrior: str):
     await ctx.send('Pilot not found.')
   else:
     stats = stats[0]
-    stats["Rating"] = re.sub(r'^\[.*\]','',stats["Rating"])
+    #stats["Rating"] = re.sub(r'^\[.*\]','',stats["Rating"])
     result = f'```python\n{stats["Pilot"]}:\n'
     stats.pop('Pilot')
     for key in stats:
