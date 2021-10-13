@@ -1,0 +1,7 @@
+[discord]
+token=your bot's discord token here
+primaryChannel=000000000000000000
+
+[mwomercs]
+username=a valid mwomercs username here (create a seperate account for this!)
+password=the password for the account here (again, DO NOT USE YOUR ACTUAL ACCOUNT FOR THIS!)

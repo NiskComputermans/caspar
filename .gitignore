@@ -1,0 +1,5 @@
+caspar-env
+__pycache__
+*.swo
+*.swp
+*.conf
