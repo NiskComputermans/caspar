@@ -9,6 +9,7 @@ configParser.read(configFilePath)
 
 token = configParser.get('discord','token')
 primaryChannel = configParser.getint('discord','primaryChannel')
+prefix = configParser.get('discord','token')
 
 mwoUser = configParser.get('mwomercs','username')
 mwoPassword = configParser.get('mwomercs','password')
@@ -17,8 +18,6 @@ stat = MWOStat()
 
 intents = discord.Intents.default()
 intents.members = True
-
-prefix = '!'
 
 bot = commands.Bot(command_prefix=prefix, activity=discord.Game(name='Use {0}help for control instructions.'.format(prefix)))
 
