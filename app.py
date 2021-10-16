@@ -3,6 +3,7 @@ from discord.ext import commands
 from libmwostat import MWOStat
 import configparser
 import re
+import logging
 
 configParser = configparser.RawConfigParser()
 configFilePath = r'/conf/caspar.conf'
@@ -11,6 +12,7 @@ configParser.read(configFilePath)
 token = configParser.get('discord','token')
 primaryChannel = configParser.getint('discord','primaryChannel')
 prefix = configParser.get('discord','prefix')
+onJoinRole = configParser.get('discord','newUserRole')
 
 mwoUser = configParser.get('mwomercs','username')
 mwoPassword = configParser.get('mwomercs','password')
@@ -22,11 +24,30 @@ intents.members = True
 
 bot = commands.Bot(command_prefix=prefix, activity=discord.Game(name='Use {0}help for control instructions.'.format(prefix)))
 
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='/log/discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+
 @bot.event
 async def on_ready():
   channel = bot.get_channel(primaryChannel)
   print('CASPAR ready as {0}!'.format(bot.user))
+  logger.info('Logged on as {0}'.format(bot.user))
   await channel.send('CASPAR online; **{0}** reporting for duty.\nAll services nominal.'.format(bot.user.display_name))
+
+@bot.event
+async def on_member_join(member):
+    if onJoinRole != "":
+      try:
+        role = discord.utils.get(member.guild.roles, name=onJoinRole)
+        await member.add_roles(role)
+      except:
+        print(f'ERR: Unable to assign on-join role to new member {member.display_name}!')
+        logger.warning(f'WARN: Was unable to assign {onJoinRole} to {member.display_name}.')
+    else:
+      logger.warning('onJoinRole was empty')
 
 @bot.command(help='Echoes a simple reply to confirm the bot is listening.')
 async def ping(ctx):
@@ -59,7 +80,6 @@ async def jarls(ctx, warrior: str):
     await ctx.send('Pilot not found.')
   else:
     stats = stats[0]
-    #stats["Rating"] = re.sub(r'^\[.*\]','',stats["Rating"])
     result = f'```python\n{stats["Pilot"]}:\n'
     stats.pop('Pilot')
     for key in stats:

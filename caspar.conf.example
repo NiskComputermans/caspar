@@ -2,6 +2,7 @@
 token=your bot's discord token here
 primaryChannel=000000000000000000
 prefix=!
+newUserRole=foo
 
 [mwomercs]
 username=a valid mwomercs username here (create a seperate account for this!)
