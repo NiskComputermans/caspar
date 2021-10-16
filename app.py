@@ -5,7 +5,7 @@ import configparser
 import re
 
 configParser = configparser.RawConfigParser()
-configFilePath = r'./caspar.conf'
+configFilePath = r'/conf/caspar.conf'
 configParser.read(configFilePath)
 
 token = configParser.get('discord','token')
