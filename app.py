@@ -108,4 +108,13 @@ async def rmrole(ctx, warrior: discord.Member, role: str):
   except:
     await ctx.send('Unable to remove role from warrior. Please check role name and permissions.')
 
+@bot.commands(help='Look up a mech by chassis or variant on GrimMechs. Queries are case insensitive.')
+async def grim(ctx, mech: str):
+  if re.match('[!@#$%^&*()|\;:\'",.\[\]<>?/`~_=+]*', '', mech):
+    await ctx.send('Query does not accept special characters other than dash. Queries are case insensitive.')
+  else:
+    # results = stat.GetGrimMechsBuilds(mech)
+    # TODO: Cook and return results
+    await ctx.send('Function not yet implemented.')
+
 bot.run(token)

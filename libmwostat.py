@@ -228,3 +228,35 @@ class MWOStat:
 
       outputs.append(cooked_stats)
     return(outputs)
+
+  def GetGrimMechsBuilds(mech):
+    URL='https://grimmechs.isengrim.org/Database'
+    mech = re.sub('[!@#$%^&*()|\;:\'",.\[\]<>?/`~_=+]*', '', mech)
+    match=f'^{mech}'
+
+    ret = requests.get(URL)
+    soup = BeautifulSoup(ret.text, 'html.parser')
+    
+    rowsCooked = []
+    
+    table = soup.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=='PTables')
+    rows = table.find_all(lambda tag: tag.name=='tr' and tag.get('class')==['BdEnt'])
+    
+    for row in rows:
+      data = row.find_all(lambda tag: tag.name=='td')
+    
+      chassis = row.find(lambda tag: tag.name=='td' and 'chassisname' in tag.get('class','')).text
+      variant = row.find(lambda tag: tag.name=='td' and 'variantname' in tag.get('class','')).text
+    
+      if not re.match(match, chassis, re.IGNORECASE):
+        if not re.match(match, variant, re.IGNORECASE):
+          continue;
+    
+      buildName = row.find(lambda tag: tag.name=='td' and 'buildname' in tag.get('class','') and 'leftBorderThicc' in tag.get('class','')).text
+      buildURL = row.find(lambda tag: tag.name=='a').get('href')
+      loadout = row.find(lambda tag: tag.name=='td' and 'buildname' in tag.get('class','') and 'loadout' in tag.get('class','')).text
+    
+      cookedRow = {'chassis': chassis, 'variant': variant, 'build': buildName, 'url': buildURL, 'loadout': loadout}
+      rowsCooked.append(cookedRow)
+    
+    return rowsCooked
