@@ -218,6 +218,7 @@ class MWOStat:
           return("ERR: Pilot {mwo_pilot} not found")
 
       raw = soup.find('meta', property='og:description')['content']
+      raw = re.sub(r'^[^;]+; ','',raw)
       raw = re.sub(r'[a-zA-Z;:%, ]+','',raw).split('|')
       cooked_stats['LastSeason'] = raw[5]
       cooked_stats['AvgScore'] = raw[1]
