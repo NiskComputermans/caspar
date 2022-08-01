@@ -1,10 +1,20 @@
 #!/usr/bin/python3
 
-# MwO Pilot Statistics Library
-#   v1.0 (2021052200)
-# (c) 2021 Kirk Stephenson
-# E: nisk.is.afk@gmail.com
-# W: github.com/NiskComputermans
+#    libmwostat - A library to facilitate scraping player statistics from the Mechwarrior Online website and community sources.
+#    Copyright (C) 2022  Kirk Stephenson (E: nisk.is.afk@gmail.com / W: https://github.com/NiskComputermans)
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # Based on eta0h's MWO-Leaderboard-Stats for Python 2 (https://github.com/eta0h/MWO-Leaderboard-Stats)
 
